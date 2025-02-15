@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+mysql-connector-python
+pydantic
+opencv-python
+ultralytics
+paddleocr
+numpy
+requests
+cvzone
