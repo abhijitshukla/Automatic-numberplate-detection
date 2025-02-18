@@ -4,16 +4,21 @@ import mysql.connector
 from mysql.connector import Error
 from datetime import datetime
 import uvicorn
+from dotenv import load_dotenv
+import os
+
+# Load environment variables
+load_dotenv()
 
 app = FastAPI()
 
-# Database connection settings
+# Database connection settings from environment variables
 DB_CONFIG = {
-    "host": "127.0.0.1",
-    "user": "root",
-    "password": "",
-    "database": "numberplate",
-    "port": 3306
+    "host": os.getenv("DB_HOST"),
+    "user": os.getenv("DB_USER"),
+    "password": os.getenv("DB_PASSWORD"),
+    "database": os.getenv("DB_NAME"),
+    "port": int(os.getenv("DB_PORT"))
 }
 
 # Pydantic model for request body
@@ -73,23 +78,21 @@ def get_plates():
         cursor.execute("SELECT id, numberplate, entry_date, entry_time FROM numberplate")
         plates = cursor.fetchall()
 
-        # Convert MySQL data to a properly formatted response
         formatted_plates = []
         for plate in plates:
             formatted_plates.append({
                 "id": plate[0],
                 "numberplate": plate[1],
-                "entry_date": str(plate[2]),  # Convert DATE to string
-                "entry_time": str(plate[3])   # Convert TIME to string (ensures JSON compatibility)
+                "entry_date": str(plate[2]),  
+                "entry_time": str(plate[3])  
             })
 
         cursor.close()
         connection.close()
         return {"plates": formatted_plates}
-    
+
     except Error as e:
         raise HTTPException(status_code=500, detail=f"Database error: {e}")
-
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)
