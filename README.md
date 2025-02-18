@@ -8,6 +8,7 @@ This project is an **Automatic Number Plate Detection System** that utilizes **Y
 - **OCR-based number plate recognition** with PaddleOCR.
 - **FastAPI server for database storage** (MySQL).
 - **Timestamps for every detected plate.**
+- **Environment variables** for secure database configuration.
 
 ## Technologies Used
 - **Python** (Core programming language)
@@ -19,6 +20,7 @@ This project is an **Automatic Number Plate Detection System** that utilizes **Y
 - **Uvicorn** (ASGI server for FastAPI)
 - **Requests** (Sending data to the backend)
 - **CVZone** (Visualization tools)
+- **python-dotenv** (Environment variable management)
 
 ## Installation
 ### Prerequisites
@@ -38,17 +40,21 @@ Ensure you have the following installed on your system:
    pip install -r requirements.txt
    ```
 
-3. **Configure MySQL Database**
+3. **Configure Environment Variables**
+   Create a `.env` file in the root directory and add the following:
+   ```env
+   DB_HOST=127.0.0.1
+   DB_USER=root
+   DB_PASSWORD=your_mysql_password
+   DB_NAME=numberplate
+   DB_PORT=3306
+   ```
+   > ⚠ **Important:** Replace `your_mysql_password` with your actual MySQL root password.
+
+4. **Configure MySQL Database**
    - Ensure MySQL is running.
-   - The default database name is **numberplate**.
-   - Default credentials:
-     ```
-     Host: 127.0.0.1
-     User: root
-     Password: "your mysql root password"
-     Port: 3306
-     ```
-     Modify `server.py` if you need to change these credentials.
+   - The database will be automatically created if it does not exist.
+   - Modify `server.py` if you need to change database configurations.
 
 ## Running the Project
 ### Step 1: Start the FastAPI Server
@@ -74,6 +80,7 @@ python main.py
 ```
 ├── main.py                 # Number plate detection & OCR
 ├── server.py               # FastAPI backend for MySQL storage
+├── .env                    # Environment variables (database credentials)
 ├── requirements.txt        # Required dependencies
 ├── license_plate_detector.pt # YOLOv8 model for plate detection
 ├── coco1.txt               # Class names for YOLO model
@@ -82,6 +89,7 @@ python main.py
 
 ## Notes
 - Modify `server.py` for custom database configurations.
+- Ensure the `.env` file is properly configured before running the project.
 - `main.py` reads video from `sample/sample.mp4`. Update it for a different input source.
 
 ## License
