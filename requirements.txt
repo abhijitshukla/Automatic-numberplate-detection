@@ -1,10 +1,13 @@
 fastapi
 uvicorn
-mysql-connector-python
 pydantic
+python-dotenv
+mysql-connector-python
+requests
 opencv-python
+numpy
 ultralytics
 paddleocr
-numpy
-requests
+PyQt5
+psutil
 cvzone
